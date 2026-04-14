@@ -1,0 +1,20 @@
+# Rename to config.yml before use.
+
+r2:
+  bucket: your-bucket
+
+source: /data                     # path inside the container; the compose volume mounts your host dir here
+prefix: your-prefix               # R2 path prefix (no leading slash)
+
+patterns:
+  - "*.json"
+  - "*.png"
+
+retention:
+  strategy: filename-date         # mtime (default) | filename-date
+  days: 7
+
+# Optional — pass any extra flag through to rclone (see sync/README.md for the mapping rule).
+# rclone:
+#   transfers: 4
+#   bwlimit: "10M"

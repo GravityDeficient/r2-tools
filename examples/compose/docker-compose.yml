@@ -1,0 +1,16 @@
+# r2-sync docker-compose example.
+#
+# Copy this file (and adjacent .env.example, config.example.yml,
+# cron.example) into your deploy dir, rename .example files, fill in
+# real values, and schedule via host cron.
+
+services:
+  sync:
+    image: ghcr.io/gravitydeficient/r2-sync:v0.1.0
+    user: "1000:1000"
+    env_file: .env
+    volumes:
+      - ./config.yml:/config/r2-sync.yml:ro
+      - /path/to/your/source:/data:ro
+    restart: "no"
+    profiles: ["run"]   # only runs via `docker compose run`, not `compose up`

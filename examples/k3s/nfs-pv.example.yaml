@@ -1,0 +1,17 @@
+# Static NFS PV.
+#
+# Replace `nfs.example.lan` and `/path/to/your/data` with your NFS server
+# hostname/IP and export path. Keep accessModes ReadOnlyMany (r2-sync reads
+# only; never writes to the source).
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: r2-sync-source-pv
+spec:
+  capacity:
+    storage: 1Ti            # advisory for NFS; actual capacity governed by the server
+  accessModes: [ReadOnlyMany]
+  nfs:
+    server: nfs.example.lan
+    path: /path/to/your/data
+  persistentVolumeReclaimPolicy: Retain

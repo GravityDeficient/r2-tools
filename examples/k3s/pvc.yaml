@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: r2-sync-source
+  namespace: r2-sync
+spec:
+  accessModes: [ReadOnlyMany]
+  resources:
+    requests:
+      storage: 1Ti
+  volumeName: r2-sync-source-pv

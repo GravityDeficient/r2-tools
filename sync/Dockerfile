@@ -1,10 +1,9 @@
 # syntax=docker/dockerfile:1.7
 FROM python:3.12-alpine
 
-# rclone: unpinned during early development. At v0.1.0 cut, pin to the
-# resolved version (e.g. rclone=1.70.2-r0) for reproducibility and track
-# bumps in CHANGELOG.md.
-RUN apk add --no-cache rclone
+# rclone: pinned for reproducibility. Bump in a single commit, noted in
+# CHANGELOG.md, and accept any Alpine repo drift as a deliberate upgrade.
+RUN apk add --no-cache rclone=1.72.1-r3
 
 WORKDIR /app
 

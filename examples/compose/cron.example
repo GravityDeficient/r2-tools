@@ -1,0 +1,12 @@
+# Example host cron entries for r2-sync. Adjust schedule + path to your
+# compose dir. Each entry pipes output to syslog via `logger -t <tag>` so
+# the JSON log stream shows up with a searchable tag. If your host has no
+# syslog daemon, replace `| logger -t ...` with `>> /var/log/r2-sync.log 2>&1`
+# and wire logrotate.
+
+# Every 6 hours at 15m past:
+15 */6 * * * cd /opt/r2-sync && docker compose run --rm sync 2>&1 | logger -t r2-sync
+
+# Multiple targets: one compose file per service, one cron line each. E.g.:
+# 15 */6 * * * cd /opt/r2-sync/wrf && docker compose run --rm sync 2>&1 | logger -t r2-sync-wrf
+# 30 */6 * * * cd /opt/r2-sync/cbl && docker compose run --rm sync 2>&1 | logger -t r2-sync-cbl

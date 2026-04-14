@@ -1,0 +1,20 @@
+# One ConfigMap per sync target. Replace bucket, source, prefix, patterns,
+# and retention with your specifics. See sync/README.md for the full config
+# reference.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-sync-config
+  namespace: r2-sync
+data:
+  r2-sync.yml: |
+    r2:
+      bucket: your-bucket
+    source: /data/your-subdir
+    prefix: your-prefix
+    patterns:
+      - "*.json"
+      - "*.png"
+    retention:
+      strategy: filename-date
+      days: 7

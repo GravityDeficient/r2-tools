@@ -1,0 +1,56 @@
+# One CronJob per sync target. Pin the image tag in production.
+#
+# NFS UID note: the pod runs as UID 1000 by default. Your NFS export must
+# permit reads by that UID. Two common approaches:
+#   1. Export with `all_squash,anonuid=1000,anongid=1000` on the server.
+#   2. Set `runAsUser`/`runAsGroup` below to match whatever UID actually
+#      owns the files on your NFS server.
+# First deploy: trigger a run and check `kubectl logs` for read errors
+# before trusting the schedule.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: example-sync
+  namespace: r2-sync
+spec:
+  schedule: "15 */6 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+          containers:
+            - name: sync
+              image: ghcr.io/gravitydeficient/r2-sync:v0.1.0
+              envFrom:
+                - secretRef:
+                    name: r2-credentials
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 500m
+                  memory: 256Mi
+              volumeMounts:
+                - name: config
+                  mountPath: /config
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+          volumes:
+            - name: config
+              configMap:
+                name: example-sync-config
+            - name: data
+              persistentVolumeClaim:
+                claimName: r2-sync-source
