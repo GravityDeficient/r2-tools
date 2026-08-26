@@ -16,6 +16,12 @@ Push local directories to R2 with configurable retention (mtime default, filenam
 
 Run directly against R2 (no local mount) to generate a browseable `index.html` of synced objects. Decoupled from r2-sync; independent schedule; different failure surface. Not yet started.
 
+## Legacy provenance
+
+`legacy/weather-r2-sync/` preserves the superseded one-off weather sync
+prototype and its original history. It is reference material only and must
+never be built or deployed. All production consumers use `sync/`.
+
 ## Quickstart
 
 ```

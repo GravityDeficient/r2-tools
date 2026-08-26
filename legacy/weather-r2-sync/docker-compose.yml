@@ -1,0 +1,16 @@
+services:
+  weather-r2-sync:
+    build: .
+    image: weather-r2-sync:latest
+    container_name: weather-r2-sync
+    restart: "no"
+    environment:
+      - R2_BUCKET=${R2_BUCKET}
+      - RCLONE_CONFIG_R2_TYPE=s3
+      - RCLONE_CONFIG_R2_PROVIDER=Cloudflare
+      - RCLONE_CONFIG_R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID}
+      - RCLONE_CONFIG_R2_SECRET_ACCESS_KEY=${R2_SECRET_ACCESS_KEY}
+      - RCLONE_CONFIG_R2_ENDPOINT=${R2_ENDPOINT}
+      - RCLONE_CONFIG_R2_NO_CHECK_BUCKET=true
+    volumes:
+      - ${WEATHER_ARCHIVE_DIR:-/mnt/muninn/weather-archive}:/data/weather-archive:ro
