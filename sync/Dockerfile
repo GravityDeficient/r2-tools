@@ -3,7 +3,7 @@ FROM python:3.12-alpine
 
 # rclone: pinned for reproducibility. Bump in a single commit, noted in
 # CHANGELOG.md, and accept any Alpine repo drift as a deliberate upgrade.
-RUN apk add --no-cache rclone=1.72.1-r3
+RUN apk add --no-cache rclone=1.74.1-r2
 
 WORKDIR /app
 
