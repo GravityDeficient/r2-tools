@@ -7,7 +7,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### r2-sync
 
-- *(nothing yet)*
+- Bumped pinned `rclone` from `1.72.1-r3` to `1.74.1-r2`. Alpine dropped the old build from its repo, so the image build failed with `unable to select packages`. Deliberate upgrade, per the pin policy in `sync/Dockerfile`.
 
 ### r2-indexer
 
